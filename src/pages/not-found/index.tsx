@@ -1,5 +1,6 @@
 import React from 'react';
-import { Result, Button } from 'antd';
+import { Result } from 'antd';
+import ButtonComponent from 'shared/ui/button';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -20,9 +21,9 @@ export const NotFoundPage: React.FC = () => {
         title="404"
         subTitle="Извините, страница не найдена."
         extra={
-          <Button type="primary" onClick={() => navigate('/users')}>
+          <ButtonComponent onClick={() => navigate('/users')}>
             Вернуться на главную
-          </Button>
+          </ButtonComponent>
         }
       />
     </Container>
