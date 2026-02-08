@@ -6,20 +6,20 @@ import { NotFoundPage } from 'pages/not-found';
 import { useAuth } from 'shared/lib/hooks/useAuth';
 
 export const AppRouter: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  useAuth();
 
   return (
     <Routes>
       <Route
         path="/login"
         element={
-          isAuthenticated ? <Navigate to="/users" replace /> : <LoginPage />
+          <LoginPage />
         }
       />
       <Route
         path="/users"
         element={
-          isAuthenticated ? <UsersPage /> : <Navigate to="/login" replace />
+          <UsersPage />
         }
       />
       <Route path="/404" element={<NotFoundPage />} />

@@ -9,8 +9,6 @@ import { useAuth } from 'shared/lib/hooks/useAuth';
 import { UserModal } from 'widgets/user-modal';
 import dayjs from 'dayjs';
 
-const { Title } = Typography;
-
 const Container = styled.div`
   padding: 24px;
   max-width: 1200px;
@@ -27,6 +25,9 @@ const Header = styled.div`
 export const UsersPage: React.FC = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  // if (!isAuthenticated) {
+  //   navigate('/login');
+  // }
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
 
@@ -95,7 +96,7 @@ export const UsersPage: React.FC = () => {
   return (
     <Container>
       <Header>
-        <Title level={2}>Список пользователей</Title>
+        <Typography.Title level={2}>Список пользователей</Typography.Title>
         <Space>
           <Button
             type="primary"
