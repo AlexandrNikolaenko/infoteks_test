@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Table, Avatar, Space, Typography, Spin } from "antd";
-import { LogoutOutlined, UserAddOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getUsers, User } from "shared/api/users";
 import { useAuth } from "shared/lib/hooks/useAuth";
 import { UserModal } from "widgets/user-modal";
-import dayjs from "dayjs";
 import UserRow from "./ui/user-row";
 import ButtonComponent from "shared/ui/button";
 

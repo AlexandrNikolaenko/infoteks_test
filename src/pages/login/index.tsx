@@ -1,6 +1,6 @@
 import React from "react";
 import { useMutation } from "@tanstack/react-query";
-import { Form, notification, Input } from "antd";
+import { Form, notification } from "antd";
 import { loginApi } from "shared/api/auth";
 import { useAuth } from "shared/lib/hooks/useAuth";
 import styled from "styled-components";
