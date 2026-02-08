@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: 'https://mockapi.io/api/v1', // Заглушка, будет заменена на реальный URL mockapi
+  baseURL: 'https://67dc4306e00db03c406778bd.mockapi.io/api',
   timeout: 10000,
 });
 

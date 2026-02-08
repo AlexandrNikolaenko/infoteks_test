@@ -12,7 +12,6 @@ const StyledButton = styled(Button)`
     line-height: 18px;
     &:hover {
         background-color: #1A4E7A;
-        color: #EAFFFF;
     }
 `;
 

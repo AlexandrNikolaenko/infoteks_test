@@ -1,4 +1,4 @@
-// Заглушка для авторизации с промисом и таймаутом 2000мс
+
 export const loginApi = (username: string, password: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {

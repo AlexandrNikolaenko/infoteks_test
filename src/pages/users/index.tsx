@@ -14,8 +14,10 @@ import ButtonComponent from 'shared/ui/button';
 const Container = styled.div`
   padding: 17px 34px;
   display: flex;
+  max-width: 1200px;
   flex-direction: column;
   gap: 30px;
+  margin: 0 auto;
 `;
 
 const UsersBlock = styled.div`
@@ -23,8 +25,6 @@ const UsersBlock = styled.div`
   width: 100%;
   justify-content: space-between;
   gap: 40px;
-  max-width: 1200px;
-  margin: 0 auto;
 `
 
 const Header = styled.div`
@@ -46,9 +46,6 @@ const UsersTable = styled.div`
 export const UsersPage: React.FC = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
-  // if (!isAuthenticated) {
-  //   navigate('/login');
-  // }
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
 
@@ -81,38 +78,6 @@ export const UsersPage: React.FC = () => {
     handleModalClose();
     refetch();
   };
-
-  const columns = [
-    {
-      title: 'Аватар',
-      dataIndex: 'avatar',
-      key: 'avatar',
-      render: (avatar: string, record: User) => (
-        <Avatar
-          src={avatar}
-          size={64}
-          style={{ cursor: 'pointer' }}
-          onClick={() => handleEditUser(record)}
-        />
-      ),
-    },
-    {
-      title: 'Имя',
-      dataIndex: 'name',
-      key: 'name',
-      render: (name: string, record: User) => (
-        <Typography.Link onClick={() => handleEditUser(record)}>
-          {name}
-        </Typography.Link>
-      ),
-    },
-    {
-      title: 'Зарегистрирован',
-      dataIndex: 'registeredAt',
-      key: 'registeredAt',
-      render: (date: string) => dayjs(date).format('DD.MM.YYYY'),
-    },
-  ];
 
   return (
     <Container>
