@@ -80,7 +80,7 @@ export const UserModal: React.FC<UserModalProps> = ({
           id: user.id,
           name: user.name,
           avatar: user.avatar,
-          registeredAt: user.registeredAt,
+          registeredAt: user.createdAt,
         });
       } else {
         form.resetFields();

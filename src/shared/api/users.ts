@@ -4,7 +4,7 @@ export interface User {
   id: string;
   name: string;
   avatar: string;
-  registeredAt: string;
+  createdAt: string;
 }
 
 // Заглушки для API пользователей
@@ -17,19 +17,19 @@ export const getUsers = async (): Promise<User[]> => {
           id: '1',
           name: 'Иван Иванов',
           avatar: 'https://via.placeholder.com/100',
-          registeredAt: '2023-01-15T10:00:00Z',
+          createdAt: '2023-01-15T10:00:00Z',
         },
         {
           id: '2',
           name: 'Мария Петрова',
           avatar: 'https://via.placeholder.com/100',
-          registeredAt: '2023-02-20T14:30:00Z',
+          createdAt: '2023-02-20T14:30:00Z',
         },
         {
           id: '3',
           name: 'Алексей Сидоров',
           avatar: 'https://via.placeholder.com/100',
-          registeredAt: '2023-03-10T09:15:00Z',
+          createdAt: '2023-03-10T09:15:00Z',
         },
       ]);
     }, 500);
@@ -68,4 +68,3 @@ export const updateUser = async (user: User): Promise<User> => {
   // const response = await api.put(`/users/${user.id}`, user);
   // return response.data;
 };
-

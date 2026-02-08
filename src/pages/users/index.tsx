@@ -8,12 +8,24 @@ import { getUsers, User } from 'shared/api/users';
 import { useAuth } from 'shared/lib/hooks/useAuth';
 import { UserModal } from 'widgets/user-modal';
 import dayjs from 'dayjs';
+import UserRow from './ui/user-row';
+import ButtonComponent from 'shared/ui/button';
 
 const Container = styled.div`
-  padding: 24px;
+  padding: 17px 34px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+`;
+
+const UsersBlock = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 40px;
   max-width: 1200px;
   margin: 0 auto;
-`;
+`
 
 const Header = styled.div`
   display: flex;
@@ -21,6 +33,15 @@ const Header = styled.div`
   align-items: center;
   margin-bottom: 24px;
 `;
+
+const UsersTable = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 882px;
+  width: 100%;
+`;
+
 
 export const UsersPage: React.FC = () => {
   const { logout } = useAuth();
@@ -95,32 +116,24 @@ export const UsersPage: React.FC = () => {
 
   return (
     <Container>
-      <Header>
-        <Typography.Title level={2}>Список пользователей</Typography.Title>
-        <Space>
-          <Button
-            type="primary"
-            icon={<UserAddOutlined />}
-            onClick={handleCreateUser}
-          >
-            Создать пользователя
-          </Button>
-          <Button icon={<LogoutOutlined />} onClick={handleLogout}>
-            Выход
-          </Button>
-        </Space>
-      </Header>
-
-      {isLoading ? (
-        <Spin size="large" style={{ display: 'block', textAlign: 'center', marginTop: 50 }} />
-      ) : (
-        <Table
-          dataSource={users}
-          columns={columns}
-          rowKey="id"
-          pagination={{ pageSize: 10 }}
-        />
-      )}
+      <UsersBlock>
+        {isLoading ? (
+          <Spin size="large" style={{ display: 'block', textAlign: 'center', marginTop: 50 }} />
+        ) : 
+          <UsersTable>
+            {users.map((user) => (
+              <UserRow key={user.id} {...user} />
+            ))}
+          </UsersTable>
+        }
+        <ButtonComponent onClick={handleLogout}>
+          Выход
+        </ButtonComponent>
+      </UsersBlock>
+      
+      <ButtonComponent onClick={handleCreateUser}>
+        Создать пользователя
+      </ButtonComponent>
 
       <UserModal
         open={isModalOpen}
