@@ -6,6 +6,11 @@ import { loginApi } from 'shared/api/auth';
 import { useAuth } from 'shared/lib/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import CardComponent from 'shared/ui/card';
+import InputComponent from 'shared/ui/input';
+import ButtonComponent from 'shared/ui/button';
+import FormComponent, { FormItemComponent } from 'shared/ui/form';
+import FormItem from 'antd/es/form/FormItem';
 
 const LoginContainer = styled.div`
   display: flex;
@@ -16,7 +21,9 @@ const LoginContainer = styled.div`
 `;
 
 const LoginCard = styled(Card)`
-  width: 400px;
+  width: 100%;
+  max-width: 439px;
+  border-radius: 0;
 `;
 
 export const LoginPage: React.FC = () => {
@@ -33,7 +40,7 @@ export const LoginPage: React.FC = () => {
         message: 'Успешная авторизация',
         description: 'Вы успешно вошли в систему',
       });
-      navigate('/users');
+      navigate(-1);
     },
     onError: (error: Error) => {
       notification.error({
@@ -49,50 +56,56 @@ export const LoginPage: React.FC = () => {
 
   return (
     <LoginContainer>
-      <LoginCard title="Авторизация">
-        <Form
-          form={form}
-          name="login"
-          onFinish={onFinish}
-          layout="vertical"
-          autoComplete="off"
+      <CardComponent title="Авторизация">
+      <Form
+        style={{
+          display: 'flex',
+          gap: '16px',
+          flexDirection: 'column',
+          alignItems: 'end',
+          width: '100%',
+        }}
+        form={form}
+        name="login"
+        onFinish={onFinish}
+        layout="vertical"
+        autoComplete="off"
+      >
+        <FormItemComponent
+          name="username"
+          rules={[{ required: true, message: 'Введите логин' }]}
         >
-          <Form.Item
-            name="username"
-            rules={[{ required: true, message: 'Введите логин' }]}
-          >
-            <Input
-              prefix={<UserOutlined />}
-              placeholder="Логин"
-              size="large"
-            />
-          </Form.Item>
+          <InputComponent
+            // prefix={<UserOutlined />}
+            placeholder="Логин"
+            size="large"
+          />
+        </FormItemComponent>
 
-          <Form.Item
-            name="password"
-            rules={[{ required: true, message: 'Введите пароль' }]}
-          >
-            <Input.Password
-              prefix={<LockOutlined />}
-              placeholder="Пароль"
-              size="large"
-            />
-          </Form.Item>
+        <FormItemComponent
+          name="password"
+          rules={[{ required: true, message: 'Введите пароль' }]}
+        >
+          <InputComponent
+            type="password"
+            // prefix={<LockOutlined />}
+            placeholder="Пароль"
+            size="large"
+          />
+        </FormItemComponent>
 
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              block
-              size="large"
-              loading={loginMutation.isPending}
-              disabled={loginMutation.isPending}
-            >
-              Войти
-            </Button>
-          </Form.Item>
-        </Form>
-      </LoginCard>
+        <ButtonComponent
+          type="primary"
+          htmlType="submit"
+          loading={loginMutation.isPending}
+          disabled={loginMutation.isPending}
+        >
+          Войти
+        </ButtonComponent>
+      </Form>
+      {/* <LoginCard title="Авторизация">
+      </LoginCard> */}
+      </CardComponent >
     </LoginContainer>
   );
 };
