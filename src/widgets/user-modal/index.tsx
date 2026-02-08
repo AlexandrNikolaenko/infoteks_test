@@ -2,7 +2,9 @@ import React from "react";
 import { Modal, Form, Input, message } from "antd";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createUser, updateUser, User } from "shared/api/users";
+import ModalComponent from "shared/ui/modal";
 import styled from "styled-components";
+import FormComponent from "shared/ui/form";
 
 interface UserModalProps {
   open: boolean;
@@ -11,11 +13,11 @@ interface UserModalProps {
   user: User | null;
 }
 
-const StyledModal = styled(Modal)`
-  .ant-modal-body {
-    padding: 24px;
-  }
-`;
+// const StyledModal = styled(Modal)`
+//   .ant-modal-body {
+//     padding: 24px;
+//   }
+// `;
 
 export const UserModal: React.FC<UserModalProps> = ({
   open,
@@ -89,7 +91,7 @@ export const UserModal: React.FC<UserModalProps> = ({
   }, [open, user, form]);
 
   return (
-    <StyledModal
+    <ModalComponent
       title={isEditing ? "Редактировать пользователя" : "Создать пользователя"}
       open={open}
       onOk={handleSubmit}
@@ -136,6 +138,6 @@ export const UserModal: React.FC<UserModalProps> = ({
           </Form.Item>
         )}
       </Form>
-    </StyledModal>
+    </ModalComponent>
   );
 };

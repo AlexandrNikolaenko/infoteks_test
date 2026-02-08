@@ -87,8 +87,6 @@ export const LoginPage: React.FC = () => {
             Войти
           </ButtonComponent>
         </Form>
-        {/* <LoginCard title="Авторизация">
-      </LoginCard> */}
       </CardComponent>
     </LoginContainer>
   );
