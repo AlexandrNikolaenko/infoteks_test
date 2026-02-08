@@ -13,17 +13,19 @@ const StyledCard = styled(Card)`
   gap: 26px;
   display: flex;
 
-    .ant-card-head {
+  .ant-card-head {
     border-bottom: none;
     padding: 0;
     gap: 0;
     min-height: 0;
-    }
-    .ant-card-body {
+  }
+  .ant-card-body {
     padding: 0;
-    }
+  }
 `;
 
-export default function CardComponent(props: React.ComponentProps<typeof Card>) {
+export default function CardComponent(
+  props: React.ComponentProps<typeof Card>,
+) {
   return <StyledCard {...props} />;
 }

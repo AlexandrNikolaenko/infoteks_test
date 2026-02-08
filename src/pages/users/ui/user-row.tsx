@@ -9,7 +9,7 @@ const Row = styled.div`
   justify-content: start;
   gap: 16px;
   padding: 14px 0;
-  border-bottom: 1px solid #F0F0F0;
+  border-bottom: 1px solid #f0f0f0;
 
   &:last-child {
     border-bottom: none;
@@ -34,17 +34,19 @@ const Row = styled.div`
       font-weight: 500;
       font-size: 14px;
     }
-}
+  }
 `;
 
-export default function UserRow({avatar, name, createdAt}: User) {
+export default function UserRow({ avatar, name, createdAt }: User) {
   return (
     <Row>
-        <div className="avatar" style={{ backgroundImage: `url(${avatar})` }} />
-        <div className="user__info">
-            <Typography.Title level={5}>{name}</Typography.Title>
-            <Typography.Text type="secondary">Зарегистрирован {createdAt}</Typography.Text>
-        </div>
+      <div className="avatar" style={{ backgroundImage: `url(${avatar})` }} />
+      <div className="user__info">
+        <Typography.Title level={5}>{name}</Typography.Title>
+        <Typography.Text type="secondary">
+          Зарегистрирован {createdAt}
+        </Typography.Text>
+      </div>
     </Row>
   );
 }

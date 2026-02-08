@@ -1,8 +1,8 @@
-import React from 'react';
-import { Modal, Form, Input, message } from 'antd';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createUser, updateUser, User } from 'shared/api/users';
-import styled from 'styled-components';
+import React from "react";
+import { Modal, Form, Input, message } from "antd";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createUser, updateUser, User } from "shared/api/users";
+import styled from "styled-components";
 
 interface UserModalProps {
   open: boolean;
@@ -29,24 +29,24 @@ export const UserModal: React.FC<UserModalProps> = ({
   const createMutation = useMutation({
     mutationFn: createUser,
     onSuccess: () => {
-      message.success('Пользователь успешно создан');
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      message.success("Пользователь успешно создан");
+      queryClient.invalidateQueries({ queryKey: ["users"] });
       onSuccess();
     },
     onError: () => {
-      message.error('Ошибка при создании пользователя');
+      message.error("Ошибка при создании пользователя");
     },
   });
 
   const updateMutation = useMutation({
     mutationFn: updateUser,
     onSuccess: () => {
-      message.success('Пользователь успешно обновлен');
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      message.success("Пользователь успешно обновлен");
+      queryClient.invalidateQueries({ queryKey: ["users"] });
       onSuccess();
     },
     onError: () => {
-      message.error('Ошибка при обновлении пользователя');
+      message.error("Ошибка при обновлении пользователя");
     },
   });
 
@@ -90,27 +90,20 @@ export const UserModal: React.FC<UserModalProps> = ({
 
   return (
     <StyledModal
-      title={isEditing ? 'Редактировать пользователя' : 'Создать пользователя'}
+      title={isEditing ? "Редактировать пользователя" : "Создать пользователя"}
       open={open}
       onOk={handleSubmit}
       onCancel={handleCancel}
-      okText={isEditing ? 'Сохранить' : 'Создать'}
+      okText={isEditing ? "Сохранить" : "Создать"}
       cancelText="Отмена"
       okButtonProps={{ loading: isLoading, disabled: isLoading }}
       cancelButtonProps={{ disabled: isLoading }}
       maskClosable={!isLoading}
       closable={!isLoading}
     >
-      <Form
-        form={form}
-        layout="vertical"
-        autoComplete="off"
-      >
+      <Form form={form} layout="vertical" autoComplete="off">
         {isEditing && (
-          <Form.Item
-            name="id"
-            label="ID"
-          >
+          <Form.Item name="id" label="ID">
             <Input disabled />
           </Form.Item>
         )}
@@ -118,9 +111,7 @@ export const UserModal: React.FC<UserModalProps> = ({
         <Form.Item
           name="name"
           label="Имя"
-          rules={[
-            { required: true, message: 'Введите имя пользователя' },
-          ]}
+          rules={[{ required: true, message: "Введите имя пользователя" }]}
         >
           <Input placeholder="Введите имя" />
         </Form.Item>
@@ -129,10 +120,10 @@ export const UserModal: React.FC<UserModalProps> = ({
           name="avatar"
           label="Аватар (URL)"
           rules={[
-            { required: true, message: 'Введите URL аватара' },
+            { required: true, message: "Введите URL аватара" },
             {
-              type: 'url',
-              message: 'Введите корректный URL',
+              type: "url",
+              message: "Введите корректный URL",
             },
           ]}
         >
@@ -140,10 +131,7 @@ export const UserModal: React.FC<UserModalProps> = ({
         </Form.Item>
 
         {isEditing && (
-          <Form.Item
-            name="registeredAt"
-            label="Дата регистрации"
-          >
+          <Form.Item name="registeredAt" label="Дата регистрации">
             <Input disabled />
           </Form.Item>
         )}
@@ -151,4 +139,3 @@ export const UserModal: React.FC<UserModalProps> = ({
     </StyledModal>
   );
 };
-

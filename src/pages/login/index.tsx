@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { Form, notification, Input } from 'antd';
-import { loginApi } from 'shared/api/auth';
-import { useAuth } from 'shared/lib/hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import CardComponent from 'shared/ui/card';
-import InputComponent, { InputPasswordComponent } from 'shared/ui/input';
-import ButtonComponent from 'shared/ui/button';
-import { FormItemComponent } from 'shared/ui/form';
+import React from "react";
+import { useMutation } from "@tanstack/react-query";
+import { Form, notification, Input } from "antd";
+import { loginApi } from "shared/api/auth";
+import { useAuth } from "shared/lib/hooks/useAuth";
+import styled from "styled-components";
+import CardComponent from "shared/ui/card";
+import InputComponent, { InputPasswordComponent } from "shared/ui/input";
+import ButtonComponent from "shared/ui/button";
+import { FormItemComponent } from "shared/ui/form";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -23,18 +22,23 @@ export const LoginPage: React.FC = () => {
   const { login } = useAuth();
 
   const loginMutation = useMutation({
-    mutationFn: ({ username, password }: { username: string; password: string }) =>
-      loginApi(username, password),
+    mutationFn: ({
+      username,
+      password,
+    }: {
+      username: string;
+      password: string;
+    }) => loginApi(username, password),
     onSuccess: (token) => {
       login(token);
       notification.success({
-        message: 'Успешная авторизация',
-        description: 'Вы успешно вошли в систему',
+        message: "Успешная авторизация",
+        description: "Вы успешно вошли в систему",
       });
     },
     onError: (error: Error) => {
       notification.error({
-        message: 'Ошибка авторизации',
+        message: "Ошибка авторизации",
         description: error.message,
       });
     },
@@ -47,54 +51,45 @@ export const LoginPage: React.FC = () => {
   return (
     <LoginContainer>
       <CardComponent title="Авторизация">
-      <Form
-        style={{
-          display: 'flex',
-          gap: '16px',
-          flexDirection: 'column',
-          alignItems: 'end',
-          width: '100%',
-        }}
-        form={form}
-        name="login"
-        onFinish={onFinish}
-        layout="vertical"
-        autoComplete="off"
-      >
-        <FormItemComponent
-          name="username"
-          rules={[{ required: true, message: 'Введите логин' }]}
+        <Form
+          style={{
+            display: "flex",
+            gap: "16px",
+            flexDirection: "column",
+            alignItems: "end",
+            width: "100%",
+          }}
+          form={form}
+          name="login"
+          onFinish={onFinish}
+          layout="vertical"
+          autoComplete="off"
         >
-          <InputComponent
-            // prefix={<UserOutlined />}
-            placeholder="Логин"
-            size="large"
-          />
-        </FormItemComponent>
+          <FormItemComponent
+            name="username"
+            rules={[{ required: true, message: "Введите логин" }]}
+          >
+            <InputComponent placeholder="Логин" size="large" />
+          </FormItemComponent>
 
-        <FormItemComponent
-          name="password"
-          rules={[{ required: true, message: 'Введите пароль' }]}
+          <FormItemComponent
+            name="password"
+            rules={[{ required: true, message: "Введите пароль" }]}
+          >
+            <InputPasswordComponent placeholder="Пароль" size="large" />
+          </FormItemComponent>
 
-        >
-          <InputPasswordComponent
-            placeholder="Пароль"
-            size="large"
-          />
-        </FormItemComponent>
-
-        <ButtonComponent
-          type="primary"
-          htmlType="submit"
-          disabled={loginMutation.isPending}
-        >
-          Войти
-        </ButtonComponent>
-      </Form>
-      {/* <LoginCard title="Авторизация">
+          <ButtonComponent
+            type="primary"
+            htmlType="submit"
+            disabled={loginMutation.isPending}
+          >
+            Войти
+          </ButtonComponent>
+        </Form>
+        {/* <LoginCard title="Авторизация">
       </LoginCard> */}
-      </CardComponent >
+      </CardComponent>
     </LoginContainer>
   );
 };
-

@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { Button, Table, Avatar, Space, Typography, Spin } from 'antd';
-import { LogoutOutlined, UserAddOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { getUsers, User } from 'shared/api/users';
-import { useAuth } from 'shared/lib/hooks/useAuth';
-import { UserModal } from 'widgets/user-modal';
-import dayjs from 'dayjs';
-import UserRow from './ui/user-row';
-import ButtonComponent from 'shared/ui/button';
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Button, Table, Avatar, Space, Typography, Spin } from "antd";
+import { LogoutOutlined, UserAddOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { getUsers, User } from "shared/api/users";
+import { useAuth } from "shared/lib/hooks/useAuth";
+import { UserModal } from "widgets/user-modal";
+import dayjs from "dayjs";
+import UserRow from "./ui/user-row";
+import ButtonComponent from "shared/ui/button";
 
 const Container = styled.div`
   padding: 17px 34px;
@@ -25,7 +25,7 @@ const UsersBlock = styled.div`
   width: 100%;
   justify-content: space-between;
   gap: 40px;
-`
+`;
 
 const Header = styled.div`
   display: flex;
@@ -42,21 +42,24 @@ const UsersTable = styled.div`
   width: 100%;
 `;
 
-
 export const UsersPage: React.FC = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
 
-  const { data: users = [], isLoading, refetch } = useQuery({
-    queryKey: ['users'],
+  const {
+    data: users = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["users"],
     queryFn: getUsers,
   });
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate("/login");
   };
 
   const handleCreateUser = () => {
@@ -83,19 +86,20 @@ export const UsersPage: React.FC = () => {
     <Container>
       <UsersBlock>
         {isLoading ? (
-          <Spin size="large" style={{ display: 'block', textAlign: 'center', marginTop: 50 }} />
-        ) : 
+          <Spin
+            size="large"
+            style={{ display: "block", textAlign: "center", marginTop: 50 }}
+          />
+        ) : (
           <UsersTable>
             {users.map((user) => (
               <UserRow key={user.id} {...user} />
             ))}
           </UsersTable>
-        }
-        <ButtonComponent onClick={handleLogout}>
-          Выход
-        </ButtonComponent>
+        )}
+        <ButtonComponent onClick={handleLogout}>Выход</ButtonComponent>
       </UsersBlock>
-      
+
       <ButtonComponent onClick={handleCreateUser}>
         Создать пользователя
       </ButtonComponent>
@@ -109,4 +113,3 @@ export const UsersPage: React.FC = () => {
     </Container>
   );
 };
-
