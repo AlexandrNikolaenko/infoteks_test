@@ -86,7 +86,6 @@ export const LoginPage: React.FC = () => {
         <ButtonComponent
           type="primary"
           htmlType="submit"
-          loading={loginMutation.isPending}
           disabled={loginMutation.isPending}
         >
           Войти

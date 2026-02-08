@@ -11,7 +11,12 @@ const StyledButton = styled(Button)`
     padding: 7px 15.5px;
     line-height: 18px;
     &:hover {
-        background-color: #1A4E7A;
+        background-color: #1A4E7A !important;
+        color: #EAFFFF !important;
+    }
+    &:disabled, &:disabled:hover {
+        background-color: #A4A4A4 !important;
+        color: #FFFFFF !important;
     }
 `;
 
