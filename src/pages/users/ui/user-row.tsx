@@ -33,18 +33,19 @@ const Row = styled.div`
       padding: 0;
       font-weight: 500;
       font-size: 14px;
+      cursor: pointer;
     }
   }
 `;
 
-export default function UserRow({ avatar, name, createdAt }: User) {
+export default function UserRow({  handleEditUser, ...user }: User & {handleEditUser: (user: User) => void}) {
   return (
     <Row>
-      <div className="avatar" style={{ backgroundImage: `url(${avatar})` }} />
+      <div className="avatar" style={{ backgroundImage: `url(${user.avatar})` }} />
       <div className="user__info">
-        <Typography.Title level={5}>{name}</Typography.Title>
+        <Typography.Title onClick={() => handleEditUser(user)} level={5}>{user.name}</Typography.Title>
         <Typography.Text type="secondary">
-          Зарегистрирован {createdAt}
+          Зарегистрирован {user.createdAt}
         </Typography.Text>
       </div>
     </Row>
