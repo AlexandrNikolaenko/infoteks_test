@@ -19,11 +19,6 @@ const ModalFooter = styled.div`
   justify-content: space-between;
   gap: 8px;
 `;
-// const StyledModal = styled(Modal)`
-//   .ant-modal-body {
-//     padding: 24px;
-//   }
-// `;
 
 export const UserModal: React.FC<UserModalProps> = ({
   open,
@@ -119,7 +114,7 @@ export const UserModal: React.FC<UserModalProps> = ({
       title={isEditing ? "Редактирование пользователя" : "Создание пользователя"}
       open={open}
       onOk={onClose}
-      onCancel={onClose}
+      onCancel={handleCancel}
       okText={isEditing ? "Сохранить" : "Создать"}
       cancelText="Отмена"
       footer={
