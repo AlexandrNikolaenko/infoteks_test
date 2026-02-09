@@ -13,6 +13,15 @@ const StyledForm = styled(Form)`
   }
 `;
 
+const StyledFormItem = styled(Form.Item)`
+  width: 100%;
+  padding-bottom: 0;
+
+  input {
+    border-radius: 4px;
+  }  
+`;
+
 export default function FormComponent(
   props: React.ComponentProps<typeof Form>,
 ) {
@@ -23,11 +32,7 @@ export function FormItemComponent(
   props: React.ComponentProps<typeof Form.Item>,
 ) {
   return (
-    <Form.Item
-      style={{
-        paddingBottom: "0",
-        width: "100%",
-      }}
+    <StyledFormItem
       {...props}
     />
   );

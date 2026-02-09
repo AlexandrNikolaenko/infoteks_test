@@ -5,6 +5,7 @@ import { createUser, updateUser, deleteUser, User } from "shared/api/users";
 import ModalComponent from "shared/ui/modal";
 import styled from "styled-components";
 import ButtonComponent from "shared/ui/button";
+import { FormItemComponent } from "shared/ui/form";
 
 interface UserModalProps {
   open: boolean;
@@ -115,7 +116,7 @@ export const UserModal: React.FC<UserModalProps> = ({
 
   return (
     <ModalComponent
-      title={isEditing ? "Редактировать пользователя" : "Создать пользователя"}
+      title={isEditing ? "Редактирование пользователя" : "Создание пользователя"}
       open={open}
       onOk={onClose}
       onCancel={onClose}
@@ -145,7 +146,7 @@ export const UserModal: React.FC<UserModalProps> = ({
               disabled={isLoading}
             >
               {isEditing ? "Сохранить" : "Создать"}
-            </ButtonComponent>,
+            </ButtonComponent>
             <ButtonComponent key="cancel" onClick={handleCancel} disabled={isLoading}>
               Отмена
             </ButtonComponent>
@@ -157,22 +158,24 @@ export const UserModal: React.FC<UserModalProps> = ({
     >
       <Form form={form} layout="vertical" autoComplete="off">
         {isEditing && (
-          <Form.Item name="id" label="ID">
+          <FormItemComponent name="id" label="ID">
             <Input disabled />
-          </Form.Item>
+          </FormItemComponent>
         )}
 
-        <Form.Item
+        <FormItemComponent
           name="name"
           label="Имя"
+          required={false}
           rules={[{ required: true, message: "Введите имя пользователя" }]}
         >
           <Input placeholder="Введите имя" />
-        </Form.Item>
+        </FormItemComponent>
 
-        <Form.Item
+        <FormItemComponent
           name="avatar"
-          label="Аватар (URL)"
+          label="Ссылка на аватарку"
+          required={false}
           rules={[
             { required: true, message: "Введите URL аватара" },
             {
@@ -182,13 +185,7 @@ export const UserModal: React.FC<UserModalProps> = ({
           ]}
         >
           <Input placeholder="https://example.com/avatar.jpg" />
-        </Form.Item>
-
-        {isEditing && (
-          <Form.Item name="registeredAt" label="Дата регистрации">
-            <Input disabled />
-          </Form.Item>
-        )}
+        </FormItemComponent>
       </Form>
     </ModalComponent>
   );
