@@ -1,7 +1,8 @@
-import React from 'react';
-import { Result, Button } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import React from "react";
+import { Result } from "antd";
+import ButtonComponent from "shared/ui/button";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
@@ -20,12 +21,11 @@ export const NotFoundPage: React.FC = () => {
         title="404"
         subTitle="Извините, страница не найдена."
         extra={
-          <Button type="primary" onClick={() => navigate('/users')}>
+          <ButtonComponent onClick={() => navigate("/users")}>
             Вернуться на главную
-          </Button>
+          </ButtonComponent>
         }
       />
     </Container>
   );
 };
-

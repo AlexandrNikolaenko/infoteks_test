@@ -1,20 +1,28 @@
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { Button, Table, Avatar, Space, Typography, Spin } from 'antd';
-import { LogoutOutlined, UserAddOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { getUsers, User } from 'shared/api/users';
-import { useAuth } from 'shared/lib/hooks/useAuth';
-import { UserModal } from 'widgets/user-modal';
-import dayjs from 'dayjs';
-
-const { Title } = Typography;
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Spin } from "antd";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { getUsers, User } from "shared/api/users";
+import { useAuth } from "shared/lib/hooks/useAuth";
+import { UserModal } from "widgets/user-modal";
+import UserRow from "./ui/user-row";
+import ButtonComponent from "shared/ui/button";
 
 const Container = styled.div`
-  padding: 24px;
+  padding: 17px 34px;
+  display: flex;
   max-width: 1200px;
+  flex-direction: column;
+  gap: 30px;
   margin: 0 auto;
+`;
+
+const UsersBlock = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 40px;
 `;
 
 const Header = styled.div`
@@ -24,20 +32,32 @@ const Header = styled.div`
   margin-bottom: 24px;
 `;
 
+const UsersTable = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 882px;
+  width: 100%;
+`;
+
 export const UsersPage: React.FC = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
 
-  const { data: users = [], isLoading, refetch } = useQuery({
-    queryKey: ['users'],
+  const {
+    data: users = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["users"],
     queryFn: getUsers,
   });
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate("/login");
   };
 
   const handleCreateUser = () => {
@@ -60,66 +80,27 @@ export const UsersPage: React.FC = () => {
     refetch();
   };
 
-  const columns = [
-    {
-      title: 'Аватар',
-      dataIndex: 'avatar',
-      key: 'avatar',
-      render: (avatar: string, record: User) => (
-        <Avatar
-          src={avatar}
-          size={64}
-          style={{ cursor: 'pointer' }}
-          onClick={() => handleEditUser(record)}
-        />
-      ),
-    },
-    {
-      title: 'Имя',
-      dataIndex: 'name',
-      key: 'name',
-      render: (name: string, record: User) => (
-        <Typography.Link onClick={() => handleEditUser(record)}>
-          {name}
-        </Typography.Link>
-      ),
-    },
-    {
-      title: 'Зарегистрирован',
-      dataIndex: 'registeredAt',
-      key: 'registeredAt',
-      render: (date: string) => dayjs(date).format('DD.MM.YYYY'),
-    },
-  ];
-
   return (
     <Container>
-      <Header>
-        <Title level={2}>Список пользователей</Title>
-        <Space>
-          <Button
-            type="primary"
-            icon={<UserAddOutlined />}
-            onClick={handleCreateUser}
-          >
-            Создать пользователя
-          </Button>
-          <Button icon={<LogoutOutlined />} onClick={handleLogout}>
-            Выход
-          </Button>
-        </Space>
-      </Header>
+      <UsersBlock>
+        {isLoading ? (
+          <Spin
+            size="large"
+            style={{ display: "block", textAlign: "center", marginTop: 50 }}
+          />
+        ) : (
+          <UsersTable>
+            {users.map((user) => (
+              <UserRow key={user.id} {...user} />
+            ))}
+          </UsersTable>
+        )}
+        <ButtonComponent onClick={handleLogout}>Выход</ButtonComponent>
+      </UsersBlock>
 
-      {isLoading ? (
-        <Spin size="large" style={{ display: 'block', textAlign: 'center', marginTop: 50 }} />
-      ) : (
-        <Table
-          dataSource={users}
-          columns={columns}
-          rowKey="id"
-          pagination={{ pageSize: 10 }}
-        />
-      )}
+      <ButtonComponent onClick={handleCreateUser}>
+        Создать пользователя
+      </ButtonComponent>
 
       <UserModal
         open={isModalOpen}
@@ -130,4 +111,3 @@ export const UsersPage: React.FC = () => {
     </Container>
   );
 };
-

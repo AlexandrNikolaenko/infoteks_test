@@ -1,13 +1,31 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const TOKEN_KEY = 'auth_token';
+const TOKEN_KEY = "auth_token";
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!localStorage.getItem(TOKEN_KEY) && location.pathname !== "/login") {
+      navigate("/login");
+    } else if (
+      localStorage.getItem(TOKEN_KEY) &&
+      location.pathname === "/login"
+    ) {
+      navigate("/users");
+    }
+  }, [isAuthenticated]);
+
   useEffect(() => {
     const token = localStorage.getItem(TOKEN_KEY);
-    setIsAuthenticated(!!token);
+
+    if (token && !isAuthenticated) {
+      setIsAuthenticated(true);
+    }
   }, []);
 
   const login = (token: string) => {
@@ -16,8 +34,8 @@ export const useAuth = () => {
   };
 
   const logout = () => {
-    localStorage.removeItem(TOKEN_KEY);
     setIsAuthenticated(false);
+    localStorage.removeItem(TOKEN_KEY);
   };
 
   return {
@@ -26,4 +44,3 @@ export const useAuth = () => {
     logout,
   };
 };
-
