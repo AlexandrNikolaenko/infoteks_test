@@ -1,10 +1,11 @@
 import React from "react";
 import { Modal, Form, Input, message } from "antd";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createUser, updateUser, User } from "shared/api/users";
+import { createUser, updateUser, deleteUser, User } from "shared/api/users";
 import ModalComponent from "shared/ui/modal";
 import styled from "styled-components";
-import FormComponent from "shared/ui/form";
+import ButtonComponent from "shared/ui/button";
+import { FormItemComponent } from "shared/ui/form";
 
 interface UserModalProps {
   open: boolean;
@@ -13,11 +14,11 @@ interface UserModalProps {
   user: User | null;
 }
 
-// const StyledModal = styled(Modal)`
-//   .ant-modal-body {
-//     padding: 24px;
-//   }
-// `;
+const ModalFooter = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+`;
 
 export const UserModal: React.FC<UserModalProps> = ({
   open,
@@ -52,8 +53,26 @@ export const UserModal: React.FC<UserModalProps> = ({
     },
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      message.success("Пользователь успешно удален");
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      onSuccess();
+    },
+    onError: () => {
+      message.error("Ошибка при удалении пользователя");
+    },
+  })
+
   const isEditing = !!user;
-  const isLoading = createMutation.isPending || updateMutation.isPending;
+  const isLoading = createMutation.isPending || updateMutation.isPending || deleteMutation.isPending;
+
+  const handleDelete = () => {
+    if (user) {
+      deleteMutation.mutate(user.id);
+    }
+  };
 
   const handleSubmit = () => {
     form.validateFields().then((values) => {
@@ -92,35 +111,65 @@ export const UserModal: React.FC<UserModalProps> = ({
 
   return (
     <ModalComponent
-      title={isEditing ? "Редактировать пользователя" : "Создать пользователя"}
+      title={isEditing ? "Редактирование пользователя" : "Создание пользователя"}
       open={open}
-      onOk={handleSubmit}
+      onOk={onClose}
       onCancel={handleCancel}
       okText={isEditing ? "Сохранить" : "Создать"}
       cancelText="Отмена"
-      okButtonProps={{ loading: isLoading, disabled: isLoading }}
-      cancelButtonProps={{ disabled: isLoading }}
+      footer={
+        <ModalFooter>
+          {
+            isEditing ? (
+            <ButtonComponent
+              type="primary"
+              onClick={handleDelete}
+              disabled={isLoading}
+            >
+              Удалить
+            </ButtonComponent>
+          ) : (
+            <div></div>
+            )
+          }
+          <div style={{display: 'flex', gap: '8px'}}>
+            <ButtonComponent
+              key="submit"
+              type="primary"
+              onClick={handleSubmit}
+              disabled={isLoading}
+            >
+              {isEditing ? "Сохранить" : "Создать"}
+            </ButtonComponent>
+            <ButtonComponent key="cancel" onClick={handleCancel} disabled={isLoading}>
+              Отмена
+            </ButtonComponent>
+          </div>
+        </ModalFooter>
+      }
       maskClosable={!isLoading}
       closable={!isLoading}
     >
       <Form form={form} layout="vertical" autoComplete="off">
         {isEditing && (
-          <Form.Item name="id" label="ID">
+          <FormItemComponent name="id" label="ID">
             <Input disabled />
-          </Form.Item>
+          </FormItemComponent>
         )}
 
-        <Form.Item
+        <FormItemComponent
           name="name"
           label="Имя"
+          required={false}
           rules={[{ required: true, message: "Введите имя пользователя" }]}
         >
           <Input placeholder="Введите имя" />
-        </Form.Item>
+        </FormItemComponent>
 
-        <Form.Item
+        <FormItemComponent
           name="avatar"
-          label="Аватар (URL)"
+          label="Ссылка на аватарку"
+          required={false}
           rules={[
             { required: true, message: "Введите URL аватара" },
             {
@@ -130,13 +179,7 @@ export const UserModal: React.FC<UserModalProps> = ({
           ]}
         >
           <Input placeholder="https://example.com/avatar.jpg" />
-        </Form.Item>
-
-        {isEditing && (
-          <Form.Item name="registeredAt" label="Дата регистрации">
-            <Input disabled />
-          </Form.Item>
-        )}
+        </FormItemComponent>
       </Form>
     </ModalComponent>
   );

@@ -11,7 +11,7 @@ const StyledModal = styled(Modal)`
         gap: 16px;
 
         .ant-modal-header {
-            margin-bottom: none;
+            margin-bottom: 0;
         }
 
         form {
@@ -22,6 +22,10 @@ const StyledModal = styled(Modal)`
             .ant-form-item {
                 margin-bottom: 0;
             }
+        }
+
+        .ant-modal-footer {
+            margin-top: 26px;
         }
     }
 `;

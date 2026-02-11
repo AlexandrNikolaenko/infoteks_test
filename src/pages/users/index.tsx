@@ -91,7 +91,7 @@ export const UsersPage: React.FC = () => {
         ) : (
           <UsersTable>
             {users.map((user) => (
-              <UserRow key={user.id} {...user} />
+              <UserRow key={user.id} {...user} handleEditUser={handleEditUser} />
             ))}
           </UsersTable>
         )}
