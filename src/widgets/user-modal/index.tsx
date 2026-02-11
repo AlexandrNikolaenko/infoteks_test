@@ -137,7 +137,6 @@ export const UserModal: React.FC<UserModalProps> = ({
               key="submit"
               type="primary"
               onClick={handleSubmit}
-              loading={isLoading}
               disabled={isLoading}
             >
               {isEditing ? "Сохранить" : "Создать"}
