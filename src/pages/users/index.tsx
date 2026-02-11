@@ -23,13 +23,12 @@ const UsersBlock = styled.div`
   width: 100%;
   justify-content: space-between;
   gap: 40px;
-`;
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
+  @media (max-width: 400px) {
+    flex-direction: column-reverse;
+    align-items: end;
+    gap: 20px;
+  }
 `;
 
 const UsersTable = styled.div`
