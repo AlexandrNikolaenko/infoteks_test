@@ -115,6 +115,7 @@ export const UserModal: React.FC<UserModalProps> = ({
       open={open}
       onOk={onClose}
       onCancel={handleCancel}
+      destroyOnHidden
       okText={isEditing ? "Сохранить" : "Создать"}
       cancelText="Отмена"
       footer={
